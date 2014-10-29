@@ -1,0 +1,23 @@
+package com.example.activity_listview;
+
+import com.example.activity_listview.R;
+import com.example.activity_listview.R.id;
+import com.example.activity_listview.R.layout;
+import com.example.activity_listview.R.menu;
+
+import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+public class SimpleList2Activity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_simple_list2);
+	}
+
+	
+}

@@ -1,0 +1,34 @@
+package com.example.activity_listview;
+
+import java.util.ArrayList;
+
+import com.example.activity_listview.R;
+import com.example.activity_listview.R.id;
+import com.example.activity_listview.R.layout;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.widget.ListView;
+
+public class SimpleList1Activity extends Activity{
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_simple_list1);
+	
+		ListView listView = (ListView)findViewById(R.id.simple_list1);
+		
+		ArrayList<String> arrayList = new ArrayList<String>();
+		
+		arrayList.add("������1");
+		arrayList.add("������2");
+		arrayList.add("������3");
+		arrayList.add("������4");
+		arrayList.add("������5");
+		arrayList.add("������6");
+	}
+
+	
+}

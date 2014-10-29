@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Extracts string &apos;Button&apos; into R.string.button" description="Extracts string &apos;Button&apos; into R.string.button" file="/HelloWorld/res/layout/activity_main.xml" flags="6" id="com.android.ide.eclipse.adt.refactoring.extract.string" mode="EDIT_SOURCE" proj="/HelloWorld" rplc-all-java="false" rplc-all-xml="false" sel-end="353" sel-start="333" stamp="1413271166372" tok-esc="Button" xml-attr-name="android:text"/>
+</session>
