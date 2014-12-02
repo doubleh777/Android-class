@@ -35,8 +35,17 @@
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="com.example.nextagram.R.id"/>
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
-<fullyQualifiedTypeName name="java.io.InputStream"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.graphics.drawable.Drawable"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="java.net.ServerSocket"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="org.simpleframework.xml.ElementList"/>
+<fullyQualifiedTypeName name="org.simpleframework.xml.Attribute"/>
+<fullyQualifiedTypeName name="org.simpleframework.xml.Text"/>
+<fullyQualifiedTypeName name="org.simpleframework.xml.Serializer"/>
+<fullyQualifiedTypeName name="org.simpleframework.xml.core.Persister"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>
