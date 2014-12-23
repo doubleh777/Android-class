@@ -1,0 +1,198 @@
+package com.example.nextagram;
+
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+public class Dao {
+	private Context context;
+	private SQLiteDatabase database;
+	
+	public Dao(Context context){
+		this.context = context;   // DB를 제어하려면 해당 어플리케이션의 context가 있어야한다.
+		database = context.openOrCreateDatabase("LocalDATA.db", SQLiteDatabase.CREATE_IF_NECESSARY, null);
+	
+		try{
+			String sql = "CREATE TABLE IF NOT EXISTS Articles(ID integer primary key autoincrement,"
+					+ "											ArticleNumber integer UNIQUE not null,"
+					+ "											Title text not null,"
+					+ "											WriterName text not null,"
+					+ "											WriterID text not null,"
+					+ "											Content text not null,"
+					+ "											WriteDate text not null,"
+					+ "											ImgName text UNIQUE not null);";
+		database.execSQL(sql);
+		
+					sql = "CREATE TABLE IF NOT EXISTS Comments(ArticleNumber integer not null,"
+							+ "									CommentNumber integer not null,"
+							+ "									CommentWriter text not null,"
+							+ "									CommentDate text not null,"
+							+ "									Comment text not null);";
+					
+		database.execSQL(sql);
+		
+		} catch(Exception e){
+		Log.e("test","CREATE TABLE ERROR! - " + e);
+		e.printStackTrace();
+		}
+	
+	}
+	public void insertCommentData(String jsonData){
+		int articleNumber;
+		int commentNumber;
+		String commentWriter;
+		String commentDate;
+		String comment;
+		
+		try{
+			JSONArray jArr = new JSONArray(jsonData);
+			
+			for(int i = 0 ; i < jArr.length() ; i++){
+				JSONObject jobj = jArr.getJSONObject(i);
+				
+				articleNumber = jobj.getInt("ArticleNumber");
+				commentNumber = jobj.getInt("CommentNumber");
+				commentWriter = jobj.getString("CommentWriter");
+				commentDate = jobj.getString("CommentDate");
+				comment = jobj.getString("Comment");
+				
+				
+				Log.i("test", "ArticleNumber : " + articleNumber + " CommentNumber : " + commentNumber);
+			
+				String sql = "INSERT INTO Comments(ArticleNumber, CommentNumber, CommentWriter, CommentDate, Comment)"
+						+ "		VALUES('" + articleNumber + "', '" + commentNumber + "', '" + commentWriter + "', '" + commentDate + "', '"
+						+ comment + "');";
+				
+				try{
+					database.execSQL(sql);
+				} catch(Exception e){
+					Log.e("test","DB Insert ERROR(comment)! - " + e);
+					e.printStackTrace();
+				}
+				
+			}
+			
+		} catch(JSONException e){
+			Log.e("test", "JSON ERROR! - " + e);
+			e.printStackTrace();
+		}
+	}
+	
+	public void insertJasonData(String jsonData){
+		int articleNumber;
+		String title;
+		String writer;
+		String id;
+		String content;
+		String writeDate;
+		String imgName;
+		
+		FileDownloader fileDownloader = new FileDownloader(context);
+		
+		try{
+			JSONArray jArr = new JSONArray(jsonData);
+			
+			for(int i = 0 ; i < jArr.length() ; i++){
+				JSONObject jobj = jArr.getJSONObject(i);
+				
+				articleNumber = jobj.getInt("ArticleNumber");
+				title = jobj.getString("Title");
+				writer = jobj.getString("Writer");
+				id = jobj.getString("Id");
+				content = jobj.getString("Content");
+				writeDate = jobj.getString("WriteDate");
+				imgName = jobj.getString("ImgName");
+				
+				Log.i("test", "ArticleNumber : " + articleNumber + " Title : " + title);
+			
+				String sql = "INSERT INTO Articles(ArticleNumber, Title, WriterName, WriterID, Content, WriteDate, ImgName)"
+						+ "		VALUES('" + articleNumber + "', '" + title + "', '" + writer + "', '" + id + "', '"
+						+ content + "', '" + writeDate + "', '" + imgName + "');";
+				
+				try{
+					database.execSQL(sql);
+				} catch(Exception e){
+					Log.e("test","DB Insert ERROR! - " + e);
+					e.printStackTrace();
+				}
+				
+				fileDownloader.downFile("http://192.168.0.7:5009/image/" + imgName, imgName);
+			}
+			
+		} catch(JSONException e){
+			Log.e("test", "JSON ERROR! - " + e);
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Article> getArticleList() {
+		
+		ArrayList<Article> articleList = new ArrayList<Article>();
+		
+		int articleNumber;
+		String title;
+		String writer;
+		String id;
+		String content;
+		String writeDate;
+		String imgName;
+		
+		String sql = "SELECT * FROM Articles;";
+		Cursor cursor = database.rawQuery(sql, null);
+		
+		while(cursor.moveToNext()){  // cursor는 row를 한칸씩 옮겨가며 가리키는 역
+		
+			articleNumber = cursor.getInt(1);
+			title = cursor.getString(2);
+			writer = cursor.getString(3);
+			id = cursor.getString(4);
+			content = cursor.getString(5);
+			writeDate = cursor.getString(6);
+			imgName = cursor.getString(7);
+			
+			articleList.add(new Article(articleNumber, title, writer, id, content, writeDate, imgName));
+		}
+		
+		cursor.close();
+		
+		return articleList;
+	}
+
+	public ArrayList<Comment> getCommentList() {
+		ArrayList<Comment> commentList = new ArrayList<Comment>();
+		
+		int articleNumber;
+		int commentNumber;
+		String commentWriter;
+		String commentDate;
+		String comment;
+		
+		String sql = "SELECT * FROM Comments;";
+		Cursor cursor = database.rawQuery(sql, null);
+		
+		while(cursor.moveToNext()){  // cursor는 row를 한칸씩 옮겨가며 가리키는 역
+		
+			articleNumber = cursor.getInt(1);
+			commentNumber = cursor.getInt(2);
+			commentWriter = cursor.getString(3);
+			commentDate = cursor.getString(4);
+			comment = cursor.getString(5);
+			
+			commentList.add(new Comment(articleNumber, commentNumber, commentWriter, commentDate, comment));
+		}
+		
+		cursor.close();
+		
+		Log.i("test",""+commentList.get(0).getComment());
+		return commentList;
+	}
+	
+}
+

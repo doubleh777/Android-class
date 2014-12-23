@@ -1,0 +1,45 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.actionbartest.MainActivity" >
+    
+    <item
+        android:id="@+id/actionbar_search1"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:title="액션바 탐색"
+        android:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/actionbar_search2"
+        android:icon="@drawable/hyeri"
+        android:title="혜리 탐색"
+        android:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/actionbar_search3"
+        android:icon="@drawable/suji"
+        android:title="수지 탐색"
+        android:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/actionbar_search4"
+        android:icon="@drawable/yura"
+        android:title="유라 탐색"
+        android:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/actionbar_search5"
+        android:icon="@drawable/mina"
+        android:title="미나 탐색"
+        android:showAsAction="ifRoom"
+        />
+    
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    
+
+
+</menu>

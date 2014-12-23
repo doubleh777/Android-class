@@ -1,0 +1,48 @@
+package com.example.nextagram;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+
+public class ArticleViewerActivity extends ActionBarActivity {
+
+	private ArrayList<Comment> commentList = new ArrayList<Comment>();
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_article_viewer);
+		
+		TextView articleWriter = (TextView)findViewById(R.id.article_writer);
+		ImageView articleImage = (ImageView)findViewById(R.id.article_img);
+		TextView articleContent = (TextView)findViewById(R.id.article_content);
+		TextView articleWriteDate = (TextView)findViewById(R.id.article_date);
+		
+		articleWriter.setText(getIntent().getExtras().getString("articleWriter"));
+		articleContent.setText(getIntent().getExtras().getString("articleContent"));
+		articleWriteDate.setText(getIntent().getExtras().getString("articleWriteDate"));
+		try{
+			InputStream is = getApplicationContext().getAssets().open(getIntent().getExtras().getString("articleImg"));
+			Drawable d = Drawable.createFromStream(is, null);
+			articleImage.setImageDrawable(d);
+			
+		} catch(IOException e){
+			Log.e("ERROR", "ERROR" + e);	
+		}
+		
+		//댓글 보여주기
+		
+		DAO dao = new DAO(getApplicationContext());
+		commentList = dao.getCommentList();
+		
+		CommentAdapter commentAdapter = new CommentAdapter(this, R.layout.custom_list_row, commentList);
+		
+	}
+
+}

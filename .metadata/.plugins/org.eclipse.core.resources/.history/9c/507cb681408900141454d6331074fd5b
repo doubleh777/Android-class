@@ -1,0 +1,88 @@
+package com.example.nextagram;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Handler;
+
+public class ArticleViewerActivity extends ActionBarActivity {
+
+	private ArrayList<Comment> commentList = new ArrayList<Comment>();
+	private ArrayList<Comment> commentListForEachArticle = new ArrayList<Comment>();
+	private Dao dao;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_article_viewer);
+		
+		TextView articleWriter = (TextView)findViewById(R.id.article_writer);
+		ImageView articleImage = (ImageView)findViewById(R.id.article_img);
+		TextView articleContent = (TextView)findViewById(R.id.article_content);
+		TextView articleWriteDate = (TextView)findViewById(R.id.article_date);
+		
+		articleWriter.setText(getIntent().getExtras().getString("articleWriter"));
+		articleContent.setText(getIntent().getExtras().getString("articleContent"));
+		articleWriteDate.setText(getIntent().getExtras().getString("articleWriteDate"));
+		try{
+			InputStream is = getApplicationContext().getAssets().open(getIntent().getExtras().getString("articleImg"));
+			Drawable d = Drawable.createFromStream(is, null);
+			articleImage.setImageDrawable(d);
+			
+		} catch(IOException e){
+			Log.e("ERROR", "ERROR" + e);	
+		}
+		
+		//댓글 보여주기
+		refreshComment();
+	}
+	
+	private final Handler handler = new Handler();
+	public void refreshComment(){
+		try{
+			new Thread(){
+				public void run(){
+					dao = new Dao(getApplicationContext());
+					Proxy proxy = new Proxy();
+					String commentJson = proxy.getCommentJson();
+					dao.insertCommentData(commentJson);
+					};
+			}.start();
+			
+			handler.post(new Runnable(){
+				public void run(){
+					commentView();
+				}
+			});
+		}catch(Exception e){
+			Log.e("test","Getting comment ERROR : " + e);
+			e.printStackTrace();
+		}		
+	}
+	
+	private void commentView(){
+		try{
+			dao = new Dao(getApplicationContext());
+			commentList = dao.getCommentList();
+			for(int i = 0 ; i < commentList.size(); i++){
+				if(commentList.get(i).getArticleNumber() == getIntent().getExtras().getInt("articleNumber")){
+					commentListForEachArticle.add(commentList.get(i));
+				}
+			}
+			ListView commentListView = (ListView)findViewById(R.id.comment_list_view);
+			CommentAdapter commentAdapter = new CommentAdapter(this, R.layout.comment_row, commentListForEachArticle);
+			commentListView.setAdapter(commentAdapter);
+		}catch(Exception e){
+			Log.i("test","commentView ERROR :" + e);
+			e.printStackTrace();
+		}
+	}
+
+}

@@ -1,0 +1,38 @@
+package com.example.nextagram;
+
+public class Comment {
+
+	private int articleNumber;
+	private int commentNumber;
+	private String commentWriter;
+	private String commentDate;
+	private String comment;
+	
+	public Comment(int articleNumber, int commentNumber, String commentWriter, String commentDate, String comment){
+		this.articleNumber = articleNumber;
+		this.commentNumber = commentNumber;
+		this.commentWriter = commentWriter;
+		this.commentDate = commentDate;
+		this.comment = comment;
+	}
+
+	public int getArticleNumber() {
+		return articleNumber;
+	}
+
+	public int getCommentNumber() {
+		return commentNumber;
+	}
+
+	public String getCommentWriter() {
+		return commentWriter;
+	}
+
+	public String getCommentDate() {
+		return commentDate;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+}

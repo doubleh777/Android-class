@@ -1,0 +1,20 @@
+package com.example.nextagram;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Context;
+import android.widget.ArrayAdapter;
+
+public class CommentAdapter extends ArrayAdapter<Comment>{
+
+	private Context context;
+	private int resource;
+	private ArrayList commentList;
+	public CommentAdapter(Context context, int resource, ArrayList<Comment> commentList) {
+		super(context, resource, commentList);
+		
+		
+	}
+
+}

@@ -1,0 +1,59 @@
+package org.nhnnext.JaeBong.nextagram;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.mime.TypedFile;
+import android.util.Log;
+
+public class Proxy {
+	public static String SERVER_URL = "http://10.73.39.148:5009";
+	private RestAdapter restAdapter;
+	private NextagramService service;
+	
+	public Proxy(){
+			restAdapter = new RestAdapter.Builder()
+			.setEndpoint(SERVER_URL)
+			.build();
+
+			service = restAdapter
+					.create(NextagramService.class);
+		
+	}
+	
+	public String getJson(){
+		return service.getJSON().toString();
+	}
+	
+	public void uploadData(Article article,TypedFile imageFile){
+		service.uploadData(
+				article.getArticleNumber(),
+				article.getTitle(),
+				article.getWriter(),
+				article.getId(),
+				article.getContent(),
+				article.getWriteDate(),
+				article.getImgName(),
+				imageFile,
+				new Callback<DefaultResponse>(){
+
+					@Override
+					public void failure(RetrofitError error) {
+						Log.i("test", error.getLocalizedMessage());
+						
+					}
+
+					@Override
+					public void success(DefaultResponse uploadResponse, Response response) {
+						if (uploadResponse.getStatus() == 200) {
+							Log.i("test","uploadSuccess");
+						} else  {
+							Log.i("test","uploadResponseError");
+						}
+					}
+
+				}
+				);
+	}
+}

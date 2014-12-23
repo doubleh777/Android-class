@@ -1,0 +1,67 @@
+package com.example.nextagram;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Context;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class CommentAdapter extends ArrayAdapter<Comment> implements OnClickListener{
+
+	private Context context;
+	private int resource;
+	private ArrayList<Comment> commentList;
+	private int curPosition;
+	public CommentAdapter(Context context, int resource, ArrayList<Comment> commentList) {
+		super(context, resource, commentList);
+		
+		this.context = context;
+		this.resource = resource;
+		this.commentList = commentList;
+	}
+	
+	public View getView(int position, View convertView, ViewGroup parent){
+		
+		View row = convertView;
+		
+		if(row == null){
+			LayoutInflater inflater = ((Activity) context).getLayoutInflater();	
+			row = inflater.inflate(resource, parent, false);
+		}
+		
+		curPosition = position;
+		TextView commentWriter = (TextView)row.findViewById(R.id.comment_writer);
+		TextView comment = (TextView)row.findViewById(R.id.comment);
+		TextView commentDate = (TextView)row.findViewById(R.id.comment_date);
+
+		commentWriter.setText(commentList.get(position).getCommentWriter());
+		comment.setText(commentList.get(position).getComment());
+		commentDate.setText(commentList.get(position).getCommentDate());
+		Button deleteButton = (Button)row.findViewById(R.id.comment_delete_button);
+		deleteButton.setOnClickListener(this);
+		
+		
+		return row;
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.comment_delete_button :
+			ProxyUP proxyUP = new ProxyUP();
+			proxyUP.deleteComment(commentList.get(curPosition).getArticleNumber());
+			proxyUP.deleteComment(commentList.get(curPosition).getCommentNumber());
+		}
+		
+	}
+
+}
+

@@ -4,40 +4,40 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/writer_write_button"
+        android:id="@+id/upload_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Write" />
 
     <EditText
-        android:id="@+id/writer_name_text_field"
+        android:id="@+id/edit_writer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:text="작성자명" >
+        android:hint="작성자명" >
 
         <requestFocus />
     </EditText>
 
     <ImageButton
-        android:id="@+id/writer_add_image_button"
+        android:id="@+id/add_image_button"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/ic_launcher" />
 
     <EditText
-        android:id="@+id/writer_title_text_field"
+        android:id="@+id/edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:text="제목" />
+        android:hint="제목" />
 
     <EditText
-        android:id="@+id/writer_body_text_field"
+        android:id="@+id/edit_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine"
-        android:text="본문내용" />
+        android:hint="본문내용" />
 
 </LinearLayout>

@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.actionbartest.MainActivity" >
+    
+    <item
+        android:id="@+id/action_item_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="ifRoom|withText"
+        android:title="Add" />
+    <item
+        android:id="@+id/action_item_search"
+        android:icon="@android:drawable/ic_launcher.png"
+        android:showAsAction="always"
+        android:title="Action_item_with_icon" />
+    <item
+        android:id="@+id/action_item_normal"
+        android:title="Normal_item" />
+    
+    
+
+
+</menu>
